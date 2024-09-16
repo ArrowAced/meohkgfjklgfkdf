@@ -66,40 +66,51 @@ if (birthday === 1) {
 }
 
 function route() {
-    const path = document.location.pathname.split("/")
-    switch (path[1]) {
-        case "": 
-            if (document.location.pathname == "/") {
-                if (settingsstuff().homepage) {
-                    history.replaceState(null,"","/home");
-                    loadchat("home");
-                } else {
-                    loadstart();
-                }
-                
+    const path = document.location.hash.replaceAll("#","").split("/")
+    switch (path[0]) {
+        case '': 
+            if (settingsstuff().homepage) {
+                document.location.hash = "home"
+                loadchat('home');
+            } else {
+                loadstart();
             }
             break;
-        case "home": 
-            loadchat("home");
+        case 'home': 
+            loadchat('home');
             break;
-        case "livechat": 
-            loadchat("livechat")
+        case 'livechat': 
+            loadchat('livechat')
             break;
-        case "explore":
+        case 'explore':
             loadexplore(); 
             break;
-        case "inbox": 
+        case 'inbox': 
             loadinbox(); 
             break;
-        case "atticus":
+        case 'atticus':
             groupcat();
             break;
-        case "settings":
-            if (path.length > 2) switch(path[2]) {
 
-            } else {
-                loadstgs();
-                loadGeneral();
+        case 'settings':
+            switch(path[1]) {
+                case 'general':
+                    loadstgs();
+                    loadGeneral();
+                    break;
+                case 'profile':
+                    loadstgs();
+                    loadProfile();
+                    break;
+                case 'account' :
+                    loadstgs();
+                    loadAccount();
+                    break;
+                default:
+                    window.location.hash = "settings"
+                    loadstgs();
+                    loadGeneral();
+                    break; 
             }
             break;
     }
@@ -264,21 +275,7 @@ function main() {
                 renderChats();
                 
                 // work on this
-                if (pre !== "") {
-                    if (pre === "home") {
-                        loadchat('home');
-                    } else if (pre === "explore") {
-                        loadexplore();
-                    } else if (pre === "start") {
-                        loadstart();
-                    } else if (pre === "settings") {
-                        loadstgs();
-                    } else {
-                        loadchat(pre);
-                    }                
-                } else  {
-                    loadstart();
-                }
+                route();
                 if (openprofile) {
                     openUsrModal(localStorage.getItem("username"));
                 }
