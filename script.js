@@ -65,6 +65,43 @@ if (birthday === 1) {
     document.head.appendChild(script);
 }
 
+function route() {
+    const path = document.location.pathname.split("/")
+    if (document.location.pathname == "/") {
+        if (settingsstuff().homepage) {
+            history.replaceState(null,"","/home");
+            loadchat("home");
+        } else {
+            loadstart();
+        }
+    }
+    switch (path[1]) {
+        case "": if (document.location.pathname == "/") {
+            if (settingsstuff().homepage) {
+                history.replaceState(null,"","/home");
+                loadchat("home");
+            } else {
+                loadstart();
+            }
+        }
+        case "home": loadchat("home");
+        case "livechat": loadchat("livechat");
+        case "explore": loadexplore(); // why?
+        case "inbox": loadinbox();
+        case "atticus": groupcat();
+        case "settings": if (path.length > 2) switch(path[2]) {
+            case "general": {
+                history.replaceState(null,"","/settings/general");
+                loadstgs();
+                loadGeneral();
+            }
+        } else {
+            loadstgs();
+            loadGeneral();
+        }
+    }
+}
+
 setAccessibilitySettings()
 loadSavedPlugins();
 loadCustomCss();
