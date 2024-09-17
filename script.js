@@ -79,6 +79,9 @@ function route() {
         case 'home': 
             loadchat('home');
             break;
+        case 'start':
+            loadstart();
+            break;
         case 'livechat': 
             loadchat('livechat')
             break;
@@ -107,11 +110,13 @@ function route() {
                     loadAccount();
                     break;
                 default:
-                    window.location.hash = "settings"
                     loadstgs();
                     loadGeneral();
                     break; 
             }
+            break;
+        case 'chat':
+            loadchat(path[1]);
             break;
     }
 }
